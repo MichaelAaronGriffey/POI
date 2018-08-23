@@ -13,5 +13,7 @@ namespace Poi.Data.Entities
         public string Name { get; set; }
         [MaxLength(512)]
         public string Description { get; set; }
+
+        public virtual ICollection<PointOfInterest> PointsOfInterest { get; set; } = new List<PointOfInterest>();
     }
 }

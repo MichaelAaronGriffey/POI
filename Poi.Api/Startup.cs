@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Poi.AppServices;
 using Poi.Data.Repositories;
 using AutoMapper;
 using Poi.AppServices.AutoMapper;
+using Newtonsoft.Json.Serialization;
 
 namespace Poi.Api
 {
@@ -22,7 +18,16 @@ namespace Poi.Api
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICityRepository, CityRepository>();
 
-            services.AddMvc();
+            services.AddMvc()
+                
+                .AddJsonOptions(o =>
+                {
+                    if (o.SerializerSettings.ContractResolver != null)
+                    {
+                        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
+                        castedResolver.NamingStrategy = null;
+                    }
+                });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

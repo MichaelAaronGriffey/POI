@@ -1,14 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Poi.AppServices;
-using Poi.Domain;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Poi.Api.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/cities")]
     public class CitiesController : Controller
     {
         public CitiesController(ICityService cityService)
@@ -20,7 +15,8 @@ namespace Poi.Api.Controllers
 
         public IActionResult GetCities()
         {
-            return Ok(CityService.GetCities());
+            var cities = CityService.GetCities();
+            return Ok(cities);
         }
 
         [HttpGet("{id}")]
