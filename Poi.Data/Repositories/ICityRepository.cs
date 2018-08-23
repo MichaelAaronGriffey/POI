@@ -8,6 +8,6 @@ namespace Poi.Data.Repositories
     public interface ICityRepository
     {
         List<City> GetCities();
-        City GetCity();
+        City GetCity(int id);
     }
 }

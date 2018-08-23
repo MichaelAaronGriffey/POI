@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 using Poi.Data.Entities;
 
 namespace Poi.Data.Repositories
@@ -9,12 +9,14 @@ namespace Poi.Data.Repositories
     {
         public List<City> GetCities()
         {
-            throw new NotImplementedException();
+           return new List<City> {
+               new City {  Id= 1, Name = "Oklahoma City", Description = "The capital of Oklahoma" }
+           };
         }
 
-        public City GetCity()
+        public City GetCity(int id)
         {
-            throw new NotImplementedException();
+            return GetCities().FirstOrDefault(m => m.Id == id);
         }
     }
 }

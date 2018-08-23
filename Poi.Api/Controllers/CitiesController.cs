@@ -18,15 +18,18 @@ namespace Poi.Api.Controllers
 
         public ICityService CityService { get; }
 
-        public IEnumerable<City> GetCities()
+        public IActionResult GetCities()
         {
-            return CityService.GetCities();
+            return Ok(CityService.GetCities());
         }
 
         [HttpGet("{id}")]
-        public City GetCity(int id)
+        public IActionResult GetCity(int id)
         {
-            return CityService.GetCity(id);
+            var city = CityService.GetCity(id);
+            if (city == null)
+                return NotFound();
+            return Ok(city);
         }
     }
 }

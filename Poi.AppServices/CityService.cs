@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Poi.Data.Repositories;
 using Poi.Domain;
+using AutoMapper;
 
 namespace Poi.AppServices
 {
@@ -16,14 +16,16 @@ namespace Poi.AppServices
 
         public List<City> GetCities()
         {
-            return new List<City> {
-               new City {  Id= 1, Name = "Oklahoma City", Description = "The capital of Oklahoma", NumberOfPointsOfInterest = 2 }
-           };
+            var cities = CityRepository.GetCities();
+            var domainCities = Mapper.Map<List<City>>(cities);
+            return domainCities;
         }
 
         public City GetCity(int id)
         {
-            return new City { Id = 1, Name = "Oklahoma City", Description = "The capital of Oklahoma", NumberOfPointsOfInterest = 2 };
+            var city = CityRepository.GetCity(id);
+            var domainCity = Mapper.Map<City>(city);
+            return domainCity;
         }
     }
 }

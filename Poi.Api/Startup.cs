@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Poi.AppServices;
 using Poi.Data.Repositories;
+using AutoMapper;
+using Poi.AppServices.AutoMapper;
 
 namespace Poi.Api
 {
@@ -31,6 +33,12 @@ namespace Poi.Api
                 app.UseDeveloperExceptionPage();
             }
 
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<POIProfile>();
+            });
+
+            app.UseStatusCodePages();
             app.UseMvc();
         }
     }
