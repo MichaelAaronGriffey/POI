@@ -10,9 +10,22 @@ namespace Poi.Api.Controllers
     public class VersionController : Controller
     {
         [HttpGet]
-        public string Get()
+        public IEnumerable<KeyValuePair<string, string>> Get()
         {
-            return "1.0.0.0";
+            var assembly = Assembly.GetEntryAssembly();
+            var fullName = assembly?.FullName;
+            var packageVersion = assembly?.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
+            var osDescription = System.Runtime.InteropServices.RuntimeInformation.OSDescription;
+            var framework = assembly?.GetCustomAttribute<TargetFrameworkAttribute>()?.FrameworkName;
+
+            var stats = new List<KeyValuePair<string, string>>
+            {
+                new KeyValuePair<string, string>("FullName", fullName),
+                new KeyValuePair<string, string>("PackageVersion", packageVersion),
+                new KeyValuePair<string, string>("OSDescription", osDescription),
+                new KeyValuePair<string, string>("AspDotnetVersion", framework),
+            };
+            return stats;
         }
     }
 }
