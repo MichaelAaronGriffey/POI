@@ -7,6 +7,7 @@ using AutoMapper;
 using Poi.AppServices.AutoMapper;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.Extensions.Logging;
 
 namespace Poi.Api
 {
@@ -31,7 +32,7 @@ namespace Poi.Api
                     }
                 });
         }
-        
+
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
