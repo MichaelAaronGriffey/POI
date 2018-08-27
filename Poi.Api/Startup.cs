@@ -44,6 +44,7 @@ namespace Poi.Api
                 cfg.AddProfile<POIProfile>();
             });
 
+            app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseMvc();
         }
