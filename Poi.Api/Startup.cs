@@ -6,6 +6,7 @@ using Poi.Data.Repositories;
 using AutoMapper;
 using Poi.AppServices.AutoMapper;
 using Newtonsoft.Json.Serialization;
+using Microsoft.AspNetCore.Mvc.Formatters;
 
 namespace Poi.Api
 {
@@ -19,7 +20,10 @@ namespace Poi.Api
             services.AddTransient<ICityRepository, CityRepository>();
 
             services.AddMvc()
-                
+                .AddMvcOptions(o =>
+                {
+                    o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                })
                 .AddJsonOptions(o =>
                 {
                     if (o.SerializerSettings.ContractResolver != null)
