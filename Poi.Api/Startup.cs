@@ -9,15 +9,28 @@ using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
+using Poi.Data.Repositories.InMemory;
+using Microsoft.Extensions.Configuration;
 
 namespace Poi.Api
 {
     public class Startup
     {
+        public IConfiguration Configuration { get; }
+
+        public Startup(IConfiguration configuration)
+        {
+            Configuration = configuration;
+        }
+
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ICityService, CityService>();
+#if DEBUG
+            services.AddSingleton<ICityRepository, InMemoryCityRepository>();
+#else
             services.AddTransient<ICityRepository, CityRepository>();
+#endif
 
             services.AddMvc()
                 .AddMvcOptions(o =>

@@ -4,11 +4,10 @@ using System.Linq;
 using Poi.Data.Entities;
 using Poi.Data.Exceptions.CityExceptions;
 
-namespace Poi.Data.Repositories
+namespace Poi.Data.Repositories.InMemory
 {
-    public class CityRepository : ICityRepository
+    public class InMemoryCityRepository : ICityRepository
     {
-
         public ICollection<City> Cities { get; } = new List<City> {
                new City {
                     Id = new Guid("51D8DE60-5CCE-46DB-BECC-D6B5E1EF75F6"),
@@ -98,8 +97,8 @@ namespace Poi.Data.Repositories
 
         public void UpdatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
-            var originalPointOfInterest = GetPointOfInterest(cityId, pointOfInterest.Id);
-            originalPointOfInterest = pointOfInterest;
+            DeletePointOfInterest(cityId, pointOfInterest.Id);
+            AddPointOfInterest(cityId, pointOfInterest);
         }
 
         public void DeletePointOfInterest(Guid cityId, Guid id)

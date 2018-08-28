@@ -8,7 +8,7 @@ namespace Poi.Data.Entities
     public class City
     {
         [Key]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [MaxLength(256)]
         public string Name { get; set; }
         [MaxLength(512)]

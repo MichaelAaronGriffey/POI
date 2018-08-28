@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Poi.AppServices;
+using Poi.Data.Exceptions.CityExceptions;
 using System;
 
 namespace Poi.Api.Controllers
@@ -24,17 +25,17 @@ namespace Poi.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCity(int id)
+        public IActionResult GetCity(Guid id)
         {
             try
             {
                 var city = CityService.GetCity(id);
-                if (city == null)
-                {
-                    Logger.LogInformation($"City with the id {id} was not found");
-                    return NotFound();
-                }
                 return Ok(city);
+            }
+            catch (CityNotFoundException e)
+            {
+                Logger.LogInformation($"City with the id {id} was not found", e);
+                return NotFound(e.Message);
             }
             catch (Exception e)
             {

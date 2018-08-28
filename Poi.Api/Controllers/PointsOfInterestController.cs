@@ -1,9 +1,9 @@
-﻿using Microsoft.AspNetCore.JsonPatch;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Poi.AppServices;
+using Poi.Data.Exceptions.CityExceptions;
 using Poi.Domain;
-using System.Linq;
+using System;
 
 namespace Poi.Api.Controllers
 {
@@ -20,109 +20,110 @@ namespace Poi.Api.Controllers
         public ILogger<PointsOfInterestController> Logger { get; }
 
         [HttpGet("{cityId}/pointsofinterest")]
-        public IActionResult GetPointsOfInterest(int cityId)
+        public IActionResult GetPointsOfInterest(Guid cityId)
         {
-            var city = CityService.GetCity(cityId);
-            if (city == null)
+            try
             {
-                return NotFound();
+                var pointsOfInterest = CityService.GetPointsOfInterest(cityId);
+                return Ok(pointsOfInterest);
             }
-            return Ok(city.PointsOfInterest);
+            catch (CityNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
         }
 
         [HttpGet("{cityId}/pointsofinterest/{id}", Name = "GetPointOfInterest")]
-        public IActionResult GetPointOfInterest(int cityId, int id)
+        public IActionResult GetPointOfInterest(Guid cityId, Guid id)
         {
-            var city = CityService.GetCity(cityId);
-            if (city == null)
-                return NotFound();
-            var pointOfInterest = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
-            if (pointOfInterest == null)
-                return NotFound();
-            return Ok(pointOfInterest);
+            try
+            {
+                var pointOfInterest = CityService.GetPointOfInterest(cityId, id);
+                if (pointOfInterest == null)
+                    return NotFound();
+                return Ok(pointOfInterest);
+            }
+            catch (CityNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
         }
 
         [HttpPost("{cityId}/pointsofinterest")]
-        public IActionResult PostPointOfInterest(int cityId, [FromBody] PointOfInterest pointOfInterest)
+        public IActionResult PostPointOfInterest(Guid cityId, [FromBody] PointOfInterest pointOfInterest)
         {
 
             if (pointOfInterest == null)
                 return BadRequest(ModelState);
-            if (pointOfInterest?.Name == pointOfInterest?.Description)
-                ModelState.AddModelError("Description", "The name may not match the description");
             if ((!ModelState.IsValid))
                 return BadRequest(ModelState);
-
-            var city = CityService.GetCity(cityId);
-            if (city == null)
-                return NotFound();
-            var maxId = city.PointsOfInterest.Max(p => p.Id);
-            pointOfInterest.Id = ++maxId;
-            city.PointsOfInterest.Add(pointOfInterest);
-
-            return CreatedAtRoute(nameof(GetPointOfInterest),
-                new { cityId = cityId, id = pointOfInterest.Id },
-                pointOfInterest);
+            try
+            {
+                var newPointOfInterest = CityService.AddPointOfInterest(cityId, pointOfInterest);
+                return CreatedAtRoute(nameof(GetPointOfInterest),
+                    new { cityId = cityId, id = newPointOfInterest.Id },
+                    newPointOfInterest);
+            }
+            catch (CityNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
         }
 
         [HttpPut("{cityId}/pointsofinterest/{id}")]
-        public IActionResult PutPointOfInterest(int cityId, int id, [FromBody] PointOfInterest pointOfInterest)
+        public IActionResult PutPointOfInterest(Guid cityId, Guid id, [FromBody] PointOfInterest pointOfInterest)
         {
 
-            if (pointOfInterest == null)
+            if (pointOfInterest == null || id != pointOfInterest.Id)
                 return BadRequest(ModelState);
-            if (pointOfInterest?.Name == pointOfInterest?.Description)
-                ModelState.AddModelError("Description", "The name may not match the description");
             if ((!ModelState.IsValid))
                 return BadRequest(ModelState);
 
-            var city = CityService.GetCity(cityId);
-            if (city == null)
-                return NotFound();
-            var pointOfInterestToUpdate = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
-            if (pointOfInterestToUpdate == null)
-                return NotFound();
-            pointOfInterestToUpdate = pointOfInterest;
-
-            return NoContent();
-        }
-
-        [HttpPatch("{cityId}/pointsofinterest/{id}")]
-        public IActionResult PatchPointOfInterest(int cityId, int id, [FromBody] JsonPatchDocument<PointOfInterest> pointOfInterestPatchDocument)
-        {
-            if (pointOfInterestPatchDocument == null)
-                return BadRequest(ModelState);
-
-            var city = CityService.GetCity(cityId);
-            if (city == null)
-                return NotFound();
-            var pointOfInterestToUpdate = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
-            if (pointOfInterestToUpdate == null)
-                return NotFound();
-
-            pointOfInterestPatchDocument.ApplyTo(pointOfInterestToUpdate, ModelState);
-            if (pointOfInterestToUpdate.Id != id)
-                ModelState.AddModelError("Id", "Id can not be updated");
-            if (pointOfInterestToUpdate.Name == pointOfInterestToUpdate.Description)
-                ModelState.AddModelError("Description", "The name may not match the description");
-            TryValidateModel(pointOfInterestToUpdate);
-            if ((!ModelState.IsValid))
-                return BadRequest(ModelState);
-
-            return NoContent();
+            try
+            {
+                CityService.UpdatePointOfInterest(cityId, pointOfInterest);
+                return NoContent();
+            }
+            catch (CityNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
+            catch (PointOfInterestNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} with a Point of Interests with the id of {id} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
         }
 
         [HttpDelete("{cityId}/pointsofinterest/{id}")]
-        public IActionResult DeletePointOfInterest(int cityId, int id)
+        public IActionResult DeletePointOfInterest(Guid cityId, Guid id)
         {
-            var city = CityService.GetCity(cityId);
-            if (city == null)
-                return NotFound();
-            var pointOfInterestToUpdate = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
-            if (pointOfInterestToUpdate == null)
-                return NotFound();
-            city.PointsOfInterest.Remove(pointOfInterestToUpdate);
-            return NoContent();
+            try
+            {
+                CityService.DeletePointOfInterest(cityId, id);
+                return NoContent();
+            }
+            catch (CityNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
+            catch (PointOfInterestNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} with a Point of Interests with the id of {id} was not found.";
+                Logger.LogInformation(message, e);
+                return NotFound(message);
+            }
         }
     }
 }
