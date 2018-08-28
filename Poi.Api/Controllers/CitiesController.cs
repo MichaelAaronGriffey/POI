@@ -42,5 +42,20 @@ namespace Poi.Api.Controllers
                 throw;
             }
         }
+
+        [HttpGet("ThrowError")]
+        public IActionResult ThrowError()
+        {
+            try
+            {
+                throw new Exception("There has been an error intentionally thrown");
+            }
+            catch (Exception e)
+            {
+                Logger.LogCritical($"ThowError resulted in an unknown error.", e);
+                return StatusCode(500, e.Message);
+            }
+        }
+
     }
 }

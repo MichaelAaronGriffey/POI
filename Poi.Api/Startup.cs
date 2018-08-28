@@ -8,6 +8,7 @@ using Poi.AppServices.AutoMapper;
 using Newtonsoft.Json.Serialization;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.Extensions.Logging;
+using NLog.Extensions.Logging;
 
 namespace Poi.Api
 {
@@ -33,12 +34,14 @@ namespace Poi.Api
                 });
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            loggerFactory.AddNLog();
 
             Mapper.Initialize(cfg =>
             {
