@@ -11,6 +11,8 @@ using Microsoft.Extensions.Logging;
 using NLog.Extensions.Logging;
 using Poi.Data.Repositories.InMemory;
 using Microsoft.Extensions.Configuration;
+using Poi.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace Poi.Api
 {
@@ -26,11 +28,19 @@ namespace Poi.Api
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<ICityService, CityService>();
+/*
 #if DEBUG
             services.AddSingleton<ICityRepository, InMemoryCityRepository>();
 #else
             services.AddTransient<ICityRepository, CityRepository>();
 #endif
+*/
+            services.AddTransient<ICityRepository, CityRepository>();
+
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            services.AddDbContext<PoiDbContext>(
+                o => o.UseSqlServer(connectionString)
+            );
 
             services.AddMvc()
                 .AddMvcOptions(o =>

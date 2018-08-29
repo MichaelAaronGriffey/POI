@@ -8,6 +8,11 @@ namespace Poi.Data.Repositories
 {
     public class CityRepository : ICityRepository
     {
+        public CityRepository(PoiDbContext context)
+        {
+            Context = context;
+        }
+        public PoiDbContext Context { get; }
 
         public ICollection<City> Cities { get; } = new List<City> {
                new City {

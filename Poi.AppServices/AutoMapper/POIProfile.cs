@@ -9,8 +9,12 @@ namespace Poi.AppServices.AutoMapper
     {
         public POIProfile()
         {
-            CreateMap<Domain.City, Data.Entities.City>().ReverseMap()
+            CreateMap<Domain.City, Data.Entities.City>()
+                .ReverseMap()
                 .ForMember(c => c.NumberOfPointsOfInterest, opt => opt.UseValue(0));
+            CreateMap<Domain.PointOfInterest, Data.Entities.PointOfInterest>()
+                .ReverseMap()
+                .ForSourceMember(c => c.City, opt => opt.Ignore());
         }
     }
 }
