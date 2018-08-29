@@ -35,7 +35,7 @@ namespace Poi.Api
             services.AddTransient<ICityRepository, CityRepository>();
 #endif
 */
-            services.AddTransient<ICityRepository, CityRepository>();
+            services.AddTransient<ICityRepository, InMemoryCityRepository>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
             services.AddDbContext<PoiDbContext>(
