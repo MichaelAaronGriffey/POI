@@ -10,12 +10,6 @@ namespace Poi.Api.Controllers
     [Route("[controller]")]
     public class VersionController : Controller
     {
-        public VersionController(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
 
         [HttpGet]
         public IEnumerable<KeyValuePair<string, string>> Get()
@@ -32,7 +26,6 @@ namespace Poi.Api.Controllers
                 new KeyValuePair<string, string>("PackageVersion", packageVersion),
                 new KeyValuePair<string, string>("OSDescription", osDescription),
                 new KeyValuePair<string, string>("AspDotnetVersion", framework),
-                new KeyValuePair<string, string>("DefaultConnection", Configuration.GetConnectionString("DefaultConnection"))
             };
             return stats;
         }
