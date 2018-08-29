@@ -38,9 +38,9 @@ namespace Poi.Api
             services.AddTransient<ICityRepository, InMemoryCityRepository>();
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            //services.AddDbContext<PoiDbContext>(
-            //    o => o.UseSqlServer(connectionString)
-            //);
+            services.AddDbContext<PoiDbContext>(
+                o => o.UseSqlServer(connectionString)
+            );
 
             services.AddMvc()
                 .AddMvcOptions(o =>
