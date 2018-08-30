@@ -1,10 +1,5 @@
-using Poi.Data;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using Xunit;
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using Poi.Data.Repositories;
 using Tests.Poi.Data.Data;
 
