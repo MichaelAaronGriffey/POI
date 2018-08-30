@@ -11,7 +11,7 @@ namespace Poi.Data.Entities
         public Guid Id { get; set; }
         [Required, MaxLength(256)]
         public string Name { get; set; }
-        [Required, MaxLength(512)]
+        [Required, MaxLength(256)]
         public string Description { get; set; }
 
         public virtual ICollection<PointOfInterest> PointsOfInterest { get; set; } = new List<PointOfInterest>();

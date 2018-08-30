@@ -10,7 +10,7 @@ namespace Poi.Data
 
         public PoiDbContext(DbContextOptions<PoiDbContext> options): base(options)
         {
-            //Database.Migrate();
+            Database.Migrate();
         }
     }
 }
