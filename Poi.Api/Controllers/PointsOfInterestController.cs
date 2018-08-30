@@ -5,6 +5,7 @@ using Poi.AppServices;
 using Poi.Data.Exceptions.CityExceptions;
 using Poi.Domain;
 using System;
+using System.Collections.Generic;
 
 namespace Poi.Api.Controllers
 {
@@ -21,7 +22,7 @@ namespace Poi.Api.Controllers
         public ILogger<PointsOfInterestController> Logger { get; }
 
         [HttpGet("{cityId}/pointsofinterest")]
-        public IActionResult GetPointsOfInterest(Guid cityId)
+        public ActionResult<IEnumerable<PointOfInterest>> GetPointsOfInterest(Guid cityId)
         {
             try
             {
@@ -37,7 +38,7 @@ namespace Poi.Api.Controllers
         }
 
         [HttpGet("{cityId}/pointsofinterest/{id}", Name = "GetPointOfInterest")]
-        public IActionResult GetPointOfInterest(Guid cityId, Guid id)
+        public ActionResult<PointOfInterest> GetPointOfInterest(Guid cityId, Guid id)
         {
             try
             {
@@ -58,7 +59,7 @@ namespace Poi.Api.Controllers
         }
 
         [HttpPost("{cityId}/pointsofinterest")]
-        public IActionResult PostPointOfInterest(Guid cityId, [FromBody] PointOfInterest pointOfInterest)
+        public ActionResult<PointOfInterest> PostPointOfInterest(Guid cityId, [FromBody] PointOfInterest pointOfInterest)
         {
 
             if (pointOfInterest == null)
@@ -86,7 +87,7 @@ namespace Poi.Api.Controllers
         }
 
         [HttpPut("{cityId}/pointsofinterest/{id}")]
-        public IActionResult PutPointOfInterest(Guid cityId, Guid id, [FromBody] PointOfInterest pointOfInterest)
+        public ActionResult PutPointOfInterest(Guid cityId, Guid id, [FromBody] PointOfInterest pointOfInterest)
         {
 
             if (pointOfInterest == null || id != pointOfInterest.Id)
@@ -114,7 +115,7 @@ namespace Poi.Api.Controllers
         }
 
         [HttpDelete("{cityId}/pointsofinterest/{id}")]
-        public IActionResult DeletePointOfInterest(Guid cityId, Guid id)
+        public ActionResult DeletePointOfInterest(Guid cityId, Guid id)
         {
             try
             {
