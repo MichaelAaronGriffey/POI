@@ -46,10 +46,10 @@ namespace Poi.Api
                 );
             }
 
-            services.AddSwaggerGen(o =>
-            {
-                o.SwaggerDoc("v1", new Info { Title = "Poi Api", Version = "v1" });
-            });
+            //services.AddSwaggerGen(o =>
+            //{
+            //    o.SwaggerDoc("v1", new Info { Title = "Poi Api", Version = "v1" });
+            //});
 
             services.AddMvc()
                 .AddMvcOptions(o =>
@@ -80,12 +80,12 @@ namespace Poi.Api
                 cfg.AddProfile<POIProfile>();
             });
 
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Poi Api v1");
-                c.RoutePrefix = "swagger";
-            });
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Poi Api v1");
+            //    c.RoutePrefix = "swagger";
+            //});
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseMvc();
