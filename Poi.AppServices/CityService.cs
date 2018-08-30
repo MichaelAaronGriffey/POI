@@ -3,6 +3,7 @@ using Poi.Data.Repositories;
 using Poi.Domain;
 using AutoMapper;
 using System;
+using Poi.Data.Exceptions.CityExceptions;
 
 namespace Poi.AppServices
 {
@@ -15,6 +16,11 @@ namespace Poi.AppServices
 
         public ICityRepository CityRepository { get; }
 
+        public bool CityExists(Guid id)
+        {
+            return CityRepository.CityExists(id);
+        }
+
         public List<City> GetCities()
         {
             var cities = CityRepository.GetCities();
@@ -22,15 +28,17 @@ namespace Poi.AppServices
             return domainCities;
         }
 
-        public City GetCity(Guid id)
+        public City GetCity(Guid id, bool includePointsOfInterest)
         {
-            var city = CityRepository.GetCity(id);
+            var city = CityRepository.GetCity(id, includePointsOfInterest);
             var domainCity = Mapper.Map<City>(city);
             return domainCity;
         }
 
         public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
         {
+            if (!CityExists(cityId))
+                throw new CityNotFoundException();
             var pointsOfInterest = CityRepository.GetPointsOfInterest(cityId);
             var domainPointsOfInterest = Mapper.Map<List<PointOfInterest>>(pointsOfInterest);
             return domainPointsOfInterest;
@@ -38,6 +46,8 @@ namespace Poi.AppServices
 
         public PointOfInterest GetPointOfInterest(Guid cityId, Guid id)
         {
+            if (!CityExists(cityId))
+                throw new CityNotFoundException();
             var pointOfInterest = CityRepository.GetPointOfInterest(cityId, id);
             var domainPointOfInterest = Mapper.Map<PointOfInterest>(pointOfInterest);
             return domainPointOfInterest;
@@ -53,12 +63,16 @@ namespace Poi.AppServices
 
         public void UpdatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
+            if (!CityExists(cityId))
+                throw new CityNotFoundException();
             var pointOfInterestToUpdate = Mapper.Map<Data.Entities.PointOfInterest>(pointOfInterest);
             CityRepository.UpdatePointOfInterest(cityId, pointOfInterestToUpdate);
         }
 
         public void DeletePointOfInterest(Guid cityId, Guid id)
         {
+            if (!CityExists(cityId))
+                throw new CityNotFoundException();
             CityRepository.DeletePointOfInterest(cityId, id);
         }
     }

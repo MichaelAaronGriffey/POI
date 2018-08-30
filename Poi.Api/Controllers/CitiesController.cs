@@ -25,22 +25,17 @@ namespace Poi.Api.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetCity(Guid id)
+        public IActionResult GetCity(Guid id, bool includePointsOfInterest = false)
         {
             try
             {
-                var city = CityService.GetCity(id);
+                var city = CityService.GetCity(id, includePointsOfInterest);
                 return Ok(city);
             }
             catch (CityNotFoundException e)
             {
                 Logger.LogInformation($"City with the id {id} was not found", e);
                 return NotFound(e.Message);
-            }
-            catch (Exception e)
-            {
-                Logger.LogCritical($"GetCity with the id {id} resulted in an unknown error.", e);
-                throw;
             }
         }
 

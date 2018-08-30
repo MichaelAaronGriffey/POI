@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 using Poi.Data.Entities;
 using Poi.Data.Exceptions.CityExceptions;
 
@@ -65,14 +66,23 @@ namespace Poi.Data.Repositories
                },
         };
 
-        public List<City> GetCities()
+        public bool CityExists(Guid id)
         {
-            return Cities.ToList();
+            return Context.Cities.Any(c => c.Id == id);
         }
 
-        public City GetCity(Guid id)
+        public List<City> GetCities()
         {
-            var city = GetCities().FirstOrDefault(m => m.Id == id);
+            return Context.Cities.OrderBy(c => c.Name).ToList();
+        }
+
+        public City GetCity(Guid id, bool includePointsOfInterest)
+        {
+            City city;
+            if (includePointsOfInterest)
+                city = Context.Cities.Include(c => c.PointsOfInterest).FirstOrDefault(m => m.Id == id);
+            else
+                city = Context.Cities.FirstOrDefault(m => m.Id == id);
             if (city == null)
                 throw new CityNotFoundException();
             return city;
@@ -80,8 +90,7 @@ namespace Poi.Data.Repositories
 
         public PointOfInterest GetPointOfInterest(Guid cityId, Guid id)
         {
-            var city = GetCity(cityId);
-            var pointOfInterest = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
+            var pointOfInterest = Context.PointsOfInterest.FirstOrDefault(p => p.Id == id && p.CityId == cityId);
             if (pointOfInterest == null)
                 throw new PointOfInterestNotFoundException();
             return pointOfInterest;
@@ -89,29 +98,64 @@ namespace Poi.Data.Repositories
 
         public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
         {
-            var city = GetCity(cityId);
-            var pointsOfInterest = city.PointsOfInterest.ToList();
+            var pointsOfInterest = Context.PointsOfInterest.Where(p => p.CityId == cityId).ToList();
             return pointsOfInterest;
         }
 
         public PointOfInterest AddPointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
-            var city = GetCity(cityId);
+            var city = GetCity(cityId, false);
+            if (city == null)
+                throw new CityNotFoundException();
+            if (pointOfInterest.Id == null)
+                pointOfInterest.Id = Guid.NewGuid();
+
             city.PointsOfInterest.Add(pointOfInterest);
-            return pointOfInterest;
+            if (Save())
+            {
+                return pointOfInterest;
+            }
+            else
+            {
+                throw new PointOfInterestPersistanceException();
+            }
         }
 
         public void UpdatePointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
+            if (!CityExists(cityId))
+                throw new CityNotFoundException();
             var originalPointOfInterest = GetPointOfInterest(cityId, pointOfInterest.Id);
-            originalPointOfInterest = pointOfInterest;
+            originalPointOfInterest.Name = pointOfInterest.Name;
+            originalPointOfInterest.Description = pointOfInterest.Description;
+            if (Save())
+            {
+                return;
+            }
+            throw new PointOfInterestPersistanceException();
         }
 
         public void DeletePointOfInterest(Guid cityId, Guid id)
         {
+            if (!CityExists(cityId))
+                throw new CityNotFoundException();
+
             var pointOfInterest = GetPointOfInterest(cityId, id);
-            var city = GetCity(cityId);
-            city.PointsOfInterest.Remove(pointOfInterest);
+            if (pointOfInterest == null)
+                throw new PointOfInterestNotFoundException();
+
+            Context.PointsOfInterest.Remove(pointOfInterest);
+            if (Save())
+            {
+                return;
+            }
+            throw new PointOfInterestPersistanceException();
+        }
+
+        public bool Save()
+        {
+            var entitiesUpdated = Context.SaveChanges();
+            return entitiesUpdated > 0;
         }
     }
 }

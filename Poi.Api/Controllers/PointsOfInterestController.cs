@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Poi.AppServices;
 using Poi.Data.Exceptions.CityExceptions;
@@ -41,9 +42,12 @@ namespace Poi.Api.Controllers
             try
             {
                 var pointOfInterest = CityService.GetPointOfInterest(cityId, id);
-                if (pointOfInterest == null)
-                    return NotFound();
                 return Ok(pointOfInterest);
+            }
+            catch (PointOfInterestNotFoundException e)
+            {
+                var message = $"City with the id of {cityId} with a Point of Interests with the id of {id} was not found.";
+                return NotFound(message);
             }
             catch (CityNotFoundException e)
             {
@@ -73,6 +77,11 @@ namespace Poi.Api.Controllers
                 var message = $"City with the id of {cityId} was not found.";
                 Logger.LogInformation(message, e);
                 return NotFound(message);
+            }
+            catch(PointOfInterestPersistanceException e)
+            {
+                Logger.LogCritical(e.Message, e);
+                return StatusCode(StatusCodes.Status500InternalServerError, e.Message);
             }
         }
 

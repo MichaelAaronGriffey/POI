@@ -8,7 +8,7 @@ namespace Poi.Data.Repositories.InMemory
 {
     public class InMemoryCityRepository : ICityRepository
     {
-        public ICollection<City> Cities { get; } = new List<City> {
+        public static ICollection<City> Cities { get; } = new List<City> {
                new City {
                     Id = new Guid("51D8DE60-5CCE-46DB-BECC-D6B5E1EF75F6"),
                     Name = "New York City",
@@ -59,22 +59,29 @@ namespace Poi.Data.Repositories.InMemory
                },
         };
 
+        public bool CityExists(Guid id)
+        {
+            return Cities.Any(c => c.Id == id);
+        }
+
         public List<City> GetCities()
         {
             return Cities.ToList();
         }
 
-        public City GetCity(Guid id)
+        public City GetCity(Guid id, bool includePointsOfInterest)
         {
             var city = GetCities().FirstOrDefault(m => m.Id == id);
             if (city == null)
                 throw new CityNotFoundException();
+            if (includePointsOfInterest == false)
+                return new City { Id = city.Id, Name = city.Name, Description = city.Description };
             return city;
         }
 
         public PointOfInterest GetPointOfInterest(Guid cityId, Guid id)
         {
-            var city = GetCity(cityId);
+            var city = GetCity(cityId, true);
             var pointOfInterest = city.PointsOfInterest.FirstOrDefault(p => p.Id == id);
             if (pointOfInterest == null)
                 throw new PointOfInterestNotFoundException();
@@ -83,14 +90,14 @@ namespace Poi.Data.Repositories.InMemory
 
         public List<PointOfInterest> GetPointsOfInterest(Guid cityId)
         {
-            var city = GetCity(cityId);
+            var city = GetCity(cityId, true);
             var pointsOfInterest = city.PointsOfInterest.ToList();
             return pointsOfInterest;
         }
 
         public PointOfInterest AddPointOfInterest(Guid cityId, PointOfInterest pointOfInterest)
         {
-            var city = GetCity(cityId);
+            var city = GetCity(cityId, true);
             city.PointsOfInterest.Add(pointOfInterest);
             return pointOfInterest;
         }
@@ -104,8 +111,10 @@ namespace Poi.Data.Repositories.InMemory
         public void DeletePointOfInterest(Guid cityId, Guid id)
         {
             var pointOfInterest = GetPointOfInterest(cityId, id);
-            var city = GetCity(cityId);
+            var city = GetCity(cityId, true);
             city.PointsOfInterest.Remove(pointOfInterest);
         }
+
+        public bool Save() => true;
     }
 }

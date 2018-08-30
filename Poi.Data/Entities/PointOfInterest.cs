@@ -12,6 +12,8 @@ namespace Poi.Data.Entities
         public string Name { get; set; }
         [Required, MaxLength(256)]
         public string Description { get; set; }
+        public Guid CityId { get; set; }
+        [ForeignKey(nameof(CityId))]
         public virtual City City { get; set; }
 
     }

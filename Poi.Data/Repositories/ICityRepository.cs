@@ -7,6 +7,13 @@ namespace Poi.Data.Repositories
     public interface ICityRepository
     {
         /// <summary>
+        /// Checks if the city exists
+        /// </summary>
+        /// <param name="id">The uniqu id of the City</param>
+        /// <returns>city exisance</returns>
+        bool CityExists(Guid id);
+
+        /// <summary>
         /// Gets a list of the cities
         /// </summary>
         /// <returns>The cities</returns>
@@ -16,8 +23,9 @@ namespace Poi.Data.Repositories
         /// Gets the City by id
         /// </summary>
         /// <param name="id">the unique id of the City</param>
+        /// <param name="includePointsOfInterest">if the points of interest should be included</param>
         /// <returns>The City</returns>
-        City GetCity(Guid id);
+        City GetCity(Guid id, bool includePointsOfInterest);
 
         /// <summary>
         /// Gets the Points of Interest related to the City
@@ -62,5 +70,11 @@ namespace Poi.Data.Repositories
         /// <exception cref="CityNotFoundException">Thrown when the City is not found.</exception>
         /// <exception cref="PointOfInterestNotFoundException">Thrown when the Point of interest is not found.</exception>
         void DeletePointOfInterest(Guid cityId, Guid id);
+
+        /// <summary>
+        /// Saves Changes
+        /// </summary>
+        /// <returns>if the items saved >= 1</returns>
+        bool Save();
     }
 }
