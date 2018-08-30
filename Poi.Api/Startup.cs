@@ -32,19 +32,19 @@ namespace Poi.Api
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICityRepository, CityRepository>();
 
-            //if (Environment.IsDevelopment())
-            //{
-            //    services.AddDbContext<PoiDbContext>(
-            //        o => o.UseInMemoryDatabase("POI")
-            //    );
-            //}
-            //else
-            //{
-            //    var connectionString = Configuration.GetConnectionString("DefaultConnection");
-            //    services.AddDbContext<PoiDbContext>(
-            //        o => o.UseSqlServer(connectionString)
-            //    );
-            //}
+            if (Environment.IsDevelopment())
+            {
+                services.AddDbContext<PoiDbContext>(
+                    o => o.UseInMemoryDatabase("POI")
+                );
+            }
+            else
+            {
+                var connectionString = Configuration.GetConnectionString("DefaultConnection");
+                services.AddDbContext<PoiDbContext>(
+                    o => o.UseSqlServer(connectionString)
+                );
+            }
 
             services.AddSwaggerGen(o =>
             {
