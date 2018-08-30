@@ -32,19 +32,19 @@ namespace Poi.Api
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICityRepository, CityRepository>();
 
-            if (Environment.IsDevelopment())
-            {
-                services.AddDbContext<PoiDbContext>(
-                    o => o.UseInMemoryDatabase("POI")
-                );
-            }
-            else
-            {
-                var connectionString = Configuration.GetConnectionString("DefaultConnection");
-                services.AddDbContext<PoiDbContext>(
-                    o => o.UseSqlServer(connectionString)
-                );
-            }
+            //if (Environment.IsDevelopment())
+            //{
+            //    services.AddDbContext<PoiDbContext>(
+            //        o => o.UseInMemoryDatabase("POI")
+            //    );
+            //}
+            //else
+            //{
+            //    var connectionString = Configuration.GetConnectionString("DefaultConnection");
+            //    services.AddDbContext<PoiDbContext>(
+            //        o => o.UseSqlServer(connectionString)
+            //    );
+            //}
 
             //services.AddSwaggerGen(o =>
             //{
@@ -52,18 +52,19 @@ namespace Poi.Api
             //});
 
             services.AddMvc()
-                .AddMvcOptions(o =>
-                {
-                    o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
-                })
-                .AddJsonOptions(o =>
-                {
-                    if (o.SerializerSettings.ContractResolver != null)
-                    {
-                        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
-                        castedResolver.NamingStrategy = null;
-                    }
-                });
+                //.AddMvcOptions(o =>
+                //{
+                //    o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                //})
+                //.AddJsonOptions(o =>
+                //{
+                //    if (o.SerializerSettings.ContractResolver != null)
+                //    {
+                //        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
+                //        castedResolver.NamingStrategy = null;
+                //    }
+                //})
+                ;
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
@@ -73,7 +74,7 @@ namespace Poi.Api
                 app.UseDeveloperExceptionPage();
             }
 
-            loggerFactory.AddNLog();
+            //loggerFactory.AddNLog();
 
             Mapper.Initialize(cfg =>
             {
