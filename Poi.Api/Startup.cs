@@ -29,7 +29,7 @@ namespace Poi.Api
             services.AddTransient<ICityService, CityService>();
             services.AddTransient<ICityRepository, CityRepository>();
 
-            services.AddPoiDbContext(Configuration, Environment);
+            //services.AddPoiDbContext(Configuration, Environment);
 
             var gitHubUri = Configuration.GetValue<string>("GitHub:uri");
             services.AddGitHubService(gitHubUri);
