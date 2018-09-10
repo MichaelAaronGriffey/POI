@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Poi.Api</name>
+    </assembly>
+    <members>
+        <member name="T:Poi.Api.Controllers.CitiesController">
+            <summary>
+            Endpoint for Cities
+            </summary>
+        </member>
+        <member name="M:Poi.Api.Controllers.CitiesController.GetCity(System.Guid,System.Boolean)">
+            <summary>
+            Gets the City by id
+            </summary>
+            <param name="id">the unique id of the City</param>
+            <param name="includePointsOfInterest">if the points of interest should be included</param>
+            <returns>The City</returns>
+            <example>Get /api/cities/51D8DE60-5CCE-46DB-BECC-D6B5E1EF75F6</example>
+        </member>
+    </members>
+</doc>
