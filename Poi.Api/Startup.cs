@@ -34,7 +34,8 @@ namespace Poi.Api
             var gitHubUri = Configuration.GetValue<string>("GitHub:uri");
             services.AddGitHubService(gitHubUri);
 
-            services.AddSwagger("Poi Api");
+            services.AddPackageInfo();
+            services.AddSwagger();
 
             services.AddMvc()
                 .AddMvcOptions(o =>
@@ -66,7 +67,7 @@ namespace Poi.Api
                 cfg.AddProfile<POIProfile>();
             });
 
-            app.UseSwagger("Poi Api v1");
+            app.UseSwagger();
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseMvc();

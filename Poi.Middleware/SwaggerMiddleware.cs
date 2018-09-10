@@ -1,29 +1,39 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
+using Poi.Middleware.Models;
 using Swashbuckle.AspNetCore.Swagger;
 using System;
-using System.Collections.Generic;
-using System.Text;
+using System.IO;
 
 namespace Poi.Middleware
 {
     public static class SwaggerMiddleware
     {
-        public static IServiceCollection AddSwagger(this IServiceCollection services, string title)
+        public static IServiceCollection AddSwagger(this IServiceCollection services)
         {
+            var packageInfo = services.BuildServiceProvider().GetService<PackageInfo>();
+            var swaggerInfo = new Info
+            {
+                Title = packageInfo.Product,
+                Version = packageInfo.Version,
+                Description = packageInfo.Description
+            };
             services.AddSwaggerGen(o =>
             {
-                o.SwaggerDoc("v1", new Info { Title = title, Version = "v1" });
+                o.SwaggerDoc("v1", swaggerInfo);
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{packageInfo.Id}.xml");
+                o.IncludeXmlComments(xmlPath);
             });
             return services;
         }
 
-        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app, string title)
+        public static IApplicationBuilder UseSwagger(this IApplicationBuilder app)
         {
+            var packageInfo = app.ApplicationServices.GetService<PackageInfo>();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", title);
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{packageInfo.Product} v{packageInfo.Version}");
                 c.RoutePrefix = "swagger";
             });
             return app;

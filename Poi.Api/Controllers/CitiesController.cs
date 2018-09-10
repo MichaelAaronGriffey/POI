@@ -9,6 +9,9 @@ using System.Collections.Generic;
 
 namespace Poi.Api.Controllers
 {
+    /// <summary>
+    /// Endpoint for Cities
+    /// </summary>
     [Route("api/cities")]
     public class CitiesController : Controller
     {
