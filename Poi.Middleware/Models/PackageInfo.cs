@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Text;
+﻿using System.Reflection;
 
 namespace Poi.Middleware.Models
 {
@@ -13,5 +10,6 @@ namespace Poi.Middleware.Models
         public string Company { get; set; }
         public string Product { get; set; }
         public string Description { get; set; }
+        public string Copyright { get; set; }
     }
 }

@@ -1,0 +1,15 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Authors>Michael A Griffey</Authors>
+    <Company>UncannySoft</Company>
+    <Copyright> Copyright (c) UncannySoft</Copyright>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <EntityFrameworkVersion>2.1.3</EntityFrameworkVersion>
+  </PropertyGroup>
+  
+  <PropertyGroup Label="Tests">
+    <XunitVersion>2.4.0</XunitVersion>
+  </PropertyGroup>
+</Project>
