@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Poi.AppServices.AutoMapper;
 using Poi.Middleware;
+using Poi.Middleware.Services;
 
 namespace Poi.Api
 {
@@ -31,6 +32,7 @@ namespace Poi.Api
 
             services.AddPoiDbContext(Configuration, Environment);
 
+            services.AddServicePolicyRegistry();
             var gitHubUri = Configuration.GetValue<string>("GitHub:uri");
             services.AddGitHubService(gitHubUri);
 
