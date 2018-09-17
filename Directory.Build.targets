@@ -1,0 +1,7 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="Tets" Condition="$(AssemblyName.StartsWith('Tests.'))">
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="15.8.0" />
+    <PackageReference Include="xunit" Version="$(XunitVersion)" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="$(XunitVersion)" />
+  </ItemGroup>
+</Project>

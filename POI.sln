@@ -17,6 +17,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Poi.Data", "Tests\Tes
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Poi.Middleware", "Poi.Middleware\Poi.Middleware.csproj", "{2BA0D468-0608-4A9F-BAC4-F57063B9A320}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionItems", "SolutionItems", "{E728DA99-1BDA-44CF-9845-47350E8D40C5}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Build.targets = Directory.Build.targets
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

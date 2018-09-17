@@ -5,15 +5,14 @@
     <Version>1.4.0.3</Version>
     <UserSecretsId>3d862267-53c9-4d9a-8d39-5b0717a7ff35</UserSecretsId>
     <Product>Poi Api</Product>
-    <Authors>Michael A Griffey</Authors>
-    <Company>UncannySoft</Company>
+    
     <Description>An api for Points of Interest</Description>
     <FileVersion>1.4.0.2</FileVersion>
     <AssemblyVersion>1.4.0.2</AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>C:\Files\Code\MichaelAaronGriffey\GitHub\POI\Poi.Api\Poi.Api.xml</DocumentationFile>
+    <DocumentationFile>Poi.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>

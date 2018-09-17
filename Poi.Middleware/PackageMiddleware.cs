@@ -1,9 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Poi.Middleware.Models;
-using System;
-using System.Collections.Generic;
 using System.Reflection;
-using System.Text;
 
 namespace Poi.Middleware
 {
@@ -17,6 +14,7 @@ namespace Poi.Middleware
             var company = entryAssembly?.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company;
             var product = entryAssembly?.GetCustomAttribute<AssemblyProductAttribute>()?.Product;
             var description = entryAssembly?.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
+            var copyright = entryAssembly?.GetCustomAttribute<AssemblyCopyrightAttribute>()?.Copyright;
             var packageInfo = new PackageInfo
             {
                 Assembly = entryAssembly,
@@ -24,7 +22,8 @@ namespace Poi.Middleware
                 Version = version,
                 Company = company,
                 Product = product,
-                Description = description
+                Description = description,
+                Copyright = copyright,
             };
             services.AddSingleton<PackageInfo>(packageInfo);
             return services;

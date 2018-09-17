@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Configuration;
 using Poi.Middleware.Models;
 using System.Collections.Generic;
 using System.Reflection;
@@ -31,6 +30,7 @@ namespace Poi.Api.Controllers
                 new KeyValuePair<string, string>("Company", PackageInfo.Company),
                 new KeyValuePair<string, string>("Product", PackageInfo.Product),
                 new KeyValuePair<string, string>("Description", PackageInfo.Description),
+                new KeyValuePair<string, string>("Copyright", PackageInfo.Copyright),
                 new KeyValuePair<string, string>("OSDescription", osDescription),
                 new KeyValuePair<string, string>("AspDotnetVersion", framework),
             };
