@@ -57,21 +57,21 @@ namespace Poi.Api
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
             ////loggerFactory.AddNLog();
 
-            //Mapper.Initialize(cfg =>
-            //{
-            //    cfg.AddProfile<POIProfile>();
-            //});
+            Mapper.Initialize(cfg =>
+            {
+                cfg.AddProfile<POIProfile>();
+            });
 
             //app.UseMySwagger();
-            //app.UseStaticFiles();
-            //app.UseStatusCodePages();
+            app.UseStaticFiles();
+            app.UseStatusCodePages();
             app.UseMvc();
         }
     }
