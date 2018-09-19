@@ -32,26 +32,26 @@ namespace Poi.Api
 
             services.AddPoiDbContext(Configuration, Environment);
 
-            //services.AddServicePolicyRegistry();
-            //var gitHubUri = Configuration.GetValue<string>("GitHub:uri");
-            //services.AddGitHubService(gitHubUri);
+            services.AddServicePolicyRegistry();
+            var gitHubUri = Configuration.GetValue<string>("GitHub:uri");
+            services.AddGitHubService(gitHubUri);
 
-            //services.AddPackageInfo();
-            services.AddSwagger();
+            services.AddPackageInfo();
+            //services.AddSwagger();
 
             services.AddMvc()
-                //.AddMvcOptions(o =>
-                //{
-                //    o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
-                //})
-                //.AddJsonOptions(o =>
-                //{
-                //    if (o.SerializerSettings.ContractResolver != null)
-                //    {
-                //        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
-                //        castedResolver.NamingStrategy = null;
-                //    }
-                //})
+                .AddMvcOptions(o =>
+                {
+                    o.OutputFormatters.Add(new XmlDataContractSerializerOutputFormatter());
+                })
+                .AddJsonOptions(o =>
+                {
+                    if (o.SerializerSettings.ContractResolver != null)
+                    {
+                        var castedResolver = o.SerializerSettings.ContractResolver as DefaultContractResolver;
+                        castedResolver.NamingStrategy = null;
+                    }
+                })
                 ;
         }
 
@@ -69,7 +69,7 @@ namespace Poi.Api
                 cfg.AddProfile<POIProfile>();
             });
 
-            app.UseMySwagger();
+            //app.UseMySwagger();
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseMvc();
