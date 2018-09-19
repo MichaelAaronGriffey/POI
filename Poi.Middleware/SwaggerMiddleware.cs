@@ -30,12 +30,13 @@ namespace Poi.Middleware
         public static IApplicationBuilder UseMySwagger(this IApplicationBuilder app)
         {
             var packageInfo = app.ApplicationServices.GetService<PackageInfo>();
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("swagger/v1/swagger.json", $"{packageInfo.Product} v{packageInfo.Version}");
-                c.RoutePrefix = "swagger";
-            });
+            var product = $"{packageInfo.Product} v{packageInfo.Version}";
+            //app.UseSwagger();
+            //app.UseSwaggerUI(c =>
+            //{
+            //    c.RoutePrefix = "swagger";
+            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", product);
+            //});
             return app;
         }
     }

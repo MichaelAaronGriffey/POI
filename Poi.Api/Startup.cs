@@ -69,7 +69,7 @@ namespace Poi.Api
                 cfg.AddProfile<POIProfile>();
             });
 
-            //app.UseMySwagger();
+            app.UseMySwagger();
             app.UseStaticFiles();
             app.UseStatusCodePages();
             app.UseMvc();
