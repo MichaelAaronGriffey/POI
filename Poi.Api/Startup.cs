@@ -37,7 +37,7 @@ namespace Poi.Api
             services.AddGitHubService(gitHubUri);
 
             services.AddPackageInfo();
-            //services.AddSwagger();
+            services.AddSwagger();
 
             services.AddMvc()
                 .AddMvcOptions(o =>

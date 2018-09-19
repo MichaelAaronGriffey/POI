@@ -33,7 +33,7 @@ namespace Poi.Middleware
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{packageInfo.Product} v{packageInfo.Version}");
+                c.SwaggerEndpoint("swagger/v1/swagger.json", $"{packageInfo.Product} v{packageInfo.Version}");
                 c.RoutePrefix = "swagger";
             });
             return app;
