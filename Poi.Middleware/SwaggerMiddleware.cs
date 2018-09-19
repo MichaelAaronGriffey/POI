@@ -31,12 +31,12 @@ namespace Poi.Middleware
         {
             var packageInfo = app.ApplicationServices.GetService<PackageInfo>();
             var product = $"{packageInfo.Product} v{packageInfo.Version}";
-            //app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.RoutePrefix = "swagger";
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", product);
-            //});
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", product);
+
+            });
             return app;
         }
     }
