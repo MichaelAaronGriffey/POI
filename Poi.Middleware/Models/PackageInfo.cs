@@ -11,5 +11,6 @@ namespace Poi.Middleware.Models
         public string Product { get; set; }
         public string Description { get; set; }
         public string Copyright { get; set; }
+        public string XMLComents { get; set; }
     }
 }

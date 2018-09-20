@@ -21,7 +21,6 @@ namespace Poi.Middleware
             services.AddSwaggerGen(o =>
             {
                 o.SwaggerDoc("v1", swaggerInfo);
-                //var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{packageInfo.Id}.xml");
                 //o.IncludeXmlComments(xmlPath);
             });
             return services;
@@ -34,7 +33,8 @@ namespace Poi.Middleware
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "a");
+                c.RoutePrefix = string.Empty;
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", product);
 
             });
             return app;

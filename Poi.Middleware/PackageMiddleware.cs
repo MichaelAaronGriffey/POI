@@ -1,5 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Poi.Middleware.Models;
+using System;
+using System.IO;
 using System.Reflection;
 
 namespace Poi.Middleware
@@ -15,6 +17,8 @@ namespace Poi.Middleware
             var product = entryAssembly?.GetCustomAttribute<AssemblyProductAttribute>()?.Product;
             var description = entryAssembly?.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
             var copyright = entryAssembly?.GetCustomAttribute<AssemblyCopyrightAttribute>()?.Copyright;
+            var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{id}.xml");
+
             var packageInfo = new PackageInfo
             {
                 Assembly = entryAssembly,
@@ -24,6 +28,7 @@ namespace Poi.Middleware
                 Product = product,
                 Description = description,
                 Copyright = copyright,
+                XMLComents = xmlPath,
             };
             services.AddSingleton<PackageInfo>(packageInfo);
             return services;
