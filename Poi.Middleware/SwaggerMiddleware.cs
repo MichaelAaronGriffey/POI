@@ -21,8 +21,8 @@ namespace Poi.Middleware
             services.AddSwaggerGen(o =>
             {
                 o.SwaggerDoc("v1", swaggerInfo);
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{packageInfo.Id}.xml");
-                o.IncludeXmlComments(xmlPath);
+                //var xmlPath = Path.Combine(AppContext.BaseDirectory, $"{packageInfo.Id}.xml");
+                //o.IncludeXmlComments(xmlPath);
             });
             return services;
         }
@@ -32,11 +32,11 @@ namespace Poi.Middleware
             var packageInfo = app.ApplicationServices.GetService<PackageInfo>();
             var product = $"{packageInfo.Product} v{packageInfo.Version}";
             app.UseSwagger();
-            //app.UseSwaggerUI(c =>
-            //{
-            //    c.SwaggerEndpoint("/swagger/v1/swagger.json", "a");
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "a");
 
-            //});
+            });
             return app;
         }
     }
