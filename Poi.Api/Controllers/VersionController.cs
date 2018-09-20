@@ -31,6 +31,7 @@ namespace Poi.Api.Controllers
                 new KeyValuePair<string, string>("Product", PackageInfo.Product),
                 new KeyValuePair<string, string>("Description", PackageInfo.Description),
                 new KeyValuePair<string, string>("Copyright", PackageInfo.Copyright),
+                new KeyValuePair<string, string>("XML Coments Path", PackageInfo.XMLComents),
                 new KeyValuePair<string, string>("OSDescription", osDescription),
                 new KeyValuePair<string, string>("AspDotnetVersion", framework),
             };
