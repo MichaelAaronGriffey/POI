@@ -2,16 +2,16 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <Version>1.4.0.3</Version>
+    <Version>1.4.0.4</Version>
     <UserSecretsId>3d862267-53c9-4d9a-8d39-5b0717a7ff35</UserSecretsId>
     <Product>Poi Api</Product>
     
     <Description>An api for Points of Interest</Description>
-    <FileVersion>1.4.0.2</FileVersion>
-    <AssemblyVersion>1.4.0.2</AssemblyVersion>
+    <FileVersion>1.4.0.4</FileVersion>
+    <AssemblyVersion>1.4.0.4</AssemblyVersion>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+  <PropertyGroup>
     <DocumentationFile>Poi.Api.xml</DocumentationFile>
   </PropertyGroup>
 

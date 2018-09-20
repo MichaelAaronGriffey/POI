@@ -21,7 +21,7 @@ namespace Poi.Middleware
             services.AddSwaggerGen(o =>
             {
                 o.SwaggerDoc("v1", swaggerInfo);
-                //o.IncludeXmlComments(xmlPath);
+                o.IncludeXmlComments(packageInfo.XMLComents);
             });
             return services;
         }
