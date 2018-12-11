@@ -18,5 +18,17 @@
             <returns>The City</returns>
             <example>Get /api/cities/51D8DE60-5CCE-46DB-BECC-D6B5E1EF75F6</example>
         </member>
+        <member name="T:Poi.Api.Controllers.EchoController">
+            <summary>
+            A controller to echo requests to validate basic functionality.
+            </summary>
+        </member>
+        <member name="M:Poi.Api.Controllers.EchoController.Get(System.String)">
+            <summary>
+            Echos the given input
+            </summary>
+            <param name="input">The input to echo</param>
+            <returns>Echo:{input}</returns>
+        </member>
     </members>
 </doc>

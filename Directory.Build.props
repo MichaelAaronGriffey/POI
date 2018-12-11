@@ -6,11 +6,12 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <EntityFrameworkVersion>2.1.3</EntityFrameworkVersion>
+    <EntityFrameworkVersion>2.2.0</EntityFrameworkVersion>
   </PropertyGroup>
   
   <PropertyGroup Label="Tests">
-    <XunitVersion>2.4.0</XunitVersion>
+    <MicrosoftNotTestSdkVersion>15.9.0</MicrosoftNotTestSdkVersion>
+    <XunitVersion>2.4.1</XunitVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

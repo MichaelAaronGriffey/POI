@@ -12,19 +12,19 @@ namespace Poi.Api.Controllers
     [ApiController]
     public class GitHubController : ControllerBase
     {
-        public GitHubController(GitHubService gitHubService)
+        public GitHubController(IGitHubClient gitHubClient)
         {
-            GitHubService = gitHubService;
+            GitHubClient = gitHubClient;
         }
 
-        public GitHubService GitHubService { get; }
+        public IGitHubClient GitHubClient { get; }
 
         [HttpGet("{org}")]
         public async Task<ActionResult<IEnumerable<GitHubRepository>>> GetRepos(string org)
         {
             try
             {
-                var result = await GitHubService.GetRepos(org);
+                var result = await GitHubClient.GetRepos(org);
                 return Ok(result);
             }catch (HttpRequestException e)
             {

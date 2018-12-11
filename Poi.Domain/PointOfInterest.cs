@@ -6,10 +6,10 @@ namespace Poi.Domain
     public class PointOfInterest
     {
         [Key]
-        public Guid Id { get; set; }
+        public Guid Id { get; private set; }
         [Required, MaxLength(256)]
-        public string Name { get; set; }
+        public string Name { get; private set; }
         [Required, MaxLength(512)]
-        public string Description { get; set; }
+        public string Description { get; private set; }
     }
 }

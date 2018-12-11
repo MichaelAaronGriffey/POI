@@ -34,7 +34,7 @@ namespace Poi.Api
 
             services.AddServicePolicyRegistry();
             var gitHubUri = Configuration.GetValue<string>("GitHub:uri");
-            services.AddGitHubService(gitHubUri);
+            services.AddGitHubClient(gitHubUri);
 
             services.AddPackageInfo();
             services.AddSwagger();

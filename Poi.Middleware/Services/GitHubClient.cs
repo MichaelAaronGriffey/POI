@@ -1,17 +1,17 @@
 ﻿using Poi.Middleware.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Poi.Middleware.Services
 {
-    public class GitHubService
+    
+
+    public class GitHubClient : IGitHubClient
     {
         private readonly HttpClient _httpClient;
 
-        public GitHubService(HttpClient client)
+        public GitHubClient(HttpClient client)
         {
             _httpClient = client;
         }

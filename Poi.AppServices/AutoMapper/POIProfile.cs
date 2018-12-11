@@ -11,10 +11,10 @@ namespace Poi.AppServices.AutoMapper
         {
             CreateMap<Domain.City, Data.Entities.City>()
                 .ReverseMap()
-                .ForMember(c => c.NumberOfPointsOfInterest, opt => opt.UseValue(0));
+                .ForMember(c => c.NumberOfPointsOfInterest, opt => opt.Ignore());
             CreateMap<Domain.PointOfInterest, Data.Entities.PointOfInterest>()
                 .ReverseMap()
-                .ForSourceMember(c => c.City, opt => opt.Ignore());
+                .ForSourceMember(c => c.City, opt => opt.DoNotValidate());
         }
     }
 }
